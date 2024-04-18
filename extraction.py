@@ -52,16 +52,20 @@ def retrive_hist_flights(date:str, airline:str, option:str):
     for row in api_response["data"]:
 
         # TODO
-        #   The aircraft sometimes has None in "iata" and "registration".So I need to think in a way to deal with this problem
         #   Also I need to continue test to create a csv file containing the fact table before creating the dimension's ones.
         # Unique id created for each flight registred
         #   flight date + flight iata + aircraft iata
-        f_id = (row["flight_date"]) + (row["flight"]["iata"]) + (row["aircraft"]["iata"])
+        # Condition due some data are missing aircraft information
+        if row["aircraft"] == None:
+            f_id = (row["flight_date"]) + (row["flight"]["iata"]) + "None"
+        else:
+            f_id = (row["flight_date"]) + (row["flight"]["iata"]) + (row["aircraft"]["iata"])
+
         f_date = row["flight_date"]
         f_status = row["flight_status"]
         df_fact.loc[len(df_fact.index)] = [f_id, f_date, f_status]
     
-    df_fact.to_csv("test.csv")
+    df_fact.to_csv("test.csv",index=False)
 
     return api_response
 
