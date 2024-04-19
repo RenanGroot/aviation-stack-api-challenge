@@ -25,7 +25,7 @@ def retrive_hist_flights(date:str, airline:str, option:str) -> None:
     
     """
     params = {
-    "access_key" : "1666612900443c14dc413bc4df9d749b",#"YOUR API KEY",
+    "access_key" : "YOUR API KEY",
     "flight_date": date
     }
 
