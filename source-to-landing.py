@@ -13,7 +13,7 @@ import json
 #TODO
 # Scalate it
 
-def retrive_hist_flights(date:str, airline:str, option:str):
+def retrive_hist_flights(date:str, airline:str, option:str) -> None:
     """
     This function retrieves the data from historical flights of a specific date
 
@@ -25,7 +25,7 @@ def retrive_hist_flights(date:str, airline:str, option:str):
     
     """
     params = {
-    "access_key" : "YOUR API KEY",
+    "access_key" : "1666612900443c14dc413bc4df9d749b",#"YOUR API KEY",
     "flight_date": date
     }
 
@@ -44,19 +44,14 @@ def retrive_hist_flights(date:str, airline:str, option:str):
     # Requesting from API endpoint
     try:
         api_result = requests.get('https://api.aviationstack.com/v1/flights', params)
-    
+        print(api_result)
     except:
         print("Failed to get information from the server")
 
     api_response = api_result.json()
 
     # Table definitions:
-    df_fact = pd.DataFrame(columns=["id","flight_date","flight_status"])
-    df_dim_flight = pd.DataFrame(columns=["id","number","iata","icao"])
-    df_dim_airline = pd.DataFrame(columns=["id","name","iata","icao"])
-    df_dim_departure = pd.DataFrame(columns=["id","airport", "timezone", "iata", "icao", "terminal", "gate", "delay", "scheduled", "estimated", "actual", "estimated_runway", "actual_runway"])
-    df_dim_arrival = pd.DataFrame(columns=["id","airport", "timezone", "iata", "icao", "terminal", "gate", "baggage", "delay", "scheduled", "estimated", "actual", "estimated_runway", "actual_runway"])
-    df_dim_aircraft = pd.DataFrame(columns=["id","registration", "iata", "icao", "icao24"])
+    df_fact = pd.DataFrame(columns=["id","flight_date","flight_status","flight_number","flight_iata","flight_icao","airline_name","airline_iata","airline_icao","depart_airport", "depart_timezone", "depart_iata", "depart_icao", "depart_terminal", "depart_gate", "depart_delay", "depart_scheduled", "depart_estimated", "depart_actual", "depart_estimated_runway", "depart_actual_runway","arrival_airport", "arrival_timezone", "arrival_iata", "arrival_icao", "arrival_terminal", "arrival_gate", "arrival_baggage", "arrival_delay", "arrival_scheduled", "arrival_estimated", "arrival_actual", "arrival_estimated_runway", "arrival_actual_runway","aircraft_registration", "aircraft_iata", "aircraft_icao", "aircraft_icao24"])
     
     for row in api_response["data"]:
 
@@ -69,21 +64,18 @@ def retrive_hist_flights(date:str, airline:str, option:str):
         # FACT TABLE POPULATE
         f_date = row["flight_date"]
         f_status = row["flight_status"]
-        df_fact.loc[len(df_fact.index)] = [f_id, f_date, f_status]
 
-        # DIMENSION FLIGHT TABLE POPULATE
+        # FLIGHT DATA
         d_flight_nu = row["flight"]["number"]
         d_flight_ia = row["flight"]["iata"]
         d_flight_ic = row["flight"]["icao"]
-        df_dim_flight.loc[len(df_dim_flight.index)] = [f_id, d_flight_nu, d_flight_ia, d_flight_ic]
 
-        # DIMENSION AIRLNE TABLE POPULATE
+        # AIRLNE DATA
         d_airline_na = row["airline"]["name"]
         d_airline_ia = row["airline"]["iata"]
         d_airline_ic = row["airline"]["icao"]
-        df_dim_airline.loc[len(df_dim_airline.index)] = [f_id, d_airline_na, d_airline_ia, d_airline_ic]
 
-        # DIMENSION DEPARTURE TABLE POPULATE
+        # DEPARTURE DATA
         d_departure_ai = row["departure"]["airport"]
         d_departure_ti = row["departure"]["timezone"]
         d_departure_ia = row["departure"]["iata"]
@@ -96,9 +88,8 @@ def retrive_hist_flights(date:str, airline:str, option:str):
         d_departure_ac = row["departure"]["actual"]
         d_departure_esrun = row["departure"]["estimated_runway"]
         d_departure_acrun = row["departure"]["actual_runway"]
-        df_dim_departure.loc[len(df_dim_departure.index)] = [f_id, d_departure_ai, d_departure_ti, d_departure_ia, d_departure_ic, d_departure_te, d_departure_ga, d_departure_de, d_departure_sc, d_departure_es, d_departure_ac, d_departure_esrun, d_departure_acrun]
     
-        # DIMENSION ARRIVAL TABLE POPULATE
+        # ARRIVAL DATA
         d_arrival_ai = row["arrival"]["airport"]
         d_arrival_ti = row["arrival"]["timezone"]
         d_arrival_ia = row["arrival"]["iata"]
@@ -112,9 +103,9 @@ def retrive_hist_flights(date:str, airline:str, option:str):
         d_arrival_ac = row["arrival"]["actual"]
         d_arrival_esrun = row["arrival"]["estimated_runway"]
         d_arrival_acrun = row["arrival"]["actual_runway"]
-        df_dim_arrival.loc[len(df_dim_arrival.index)] = [f_id, d_arrival_ai, d_arrival_ti, d_arrival_ia, d_arrival_ic, d_arrival_te, d_arrival_ga, d_arrival_ba, d_arrival_de, d_arrival_sc, d_arrival_es, d_arrival_ac, d_arrival_esrun, d_arrival_acrun]
 
-        # DIMENSION AIRCRAFT TABLE POPULATE
+
+        #AIRCRAFT DATA
         try:
             d_aircraft_re = row["aircraft"]["registration"]
             d_aircraft_ia = row["aircraft"]["iata"]
@@ -122,18 +113,14 @@ def retrive_hist_flights(date:str, airline:str, option:str):
             d_aircraft_ic24 = row["aircraft"]["icao24"]
         except:
             d_aircraft_re,d_aircraft_ia,d_aircraft_ic,d_aircraft_ic24 = ["None","None","None","None"]
-        df_dim_aircraft.loc[len(df_dim_aircraft.index)] = [f_id, d_aircraft_re, d_aircraft_ia, d_aircraft_ic, d_aircraft_ic24]
+
+        df_fact.loc[len(df_fact.index)] = [f_id, f_date, f_status, d_flight_nu, d_flight_ia, d_flight_ic,d_airline_na, d_airline_ia, d_airline_ic,d_departure_ai, d_departure_ti, d_departure_ia, d_departure_ic, d_departure_te, d_departure_ga, d_departure_de, d_departure_sc, d_departure_es, d_departure_ac, d_departure_esrun, d_departure_acrun,d_arrival_ai, d_arrival_ti, d_arrival_ia, d_arrival_ic, d_arrival_te, d_arrival_ga, d_arrival_ba, d_arrival_de, d_arrival_sc, d_arrival_es, d_arrival_ac, d_arrival_esrun, d_arrival_acrun,d_aircraft_re, d_aircraft_ia, d_aircraft_ic, d_aircraft_ic24]
 
 
-    df_fact.to_csv(f"csv-files/fact/fact_{date}.csv",index=False)
-    df_dim_flight.to_csv(f"csv-files/dimension/dim_flight_{date}.csv",index=False)
-    df_dim_airline.to_csv(f"csv-files/dimension/dim_airline_{date}.csv",index=False)
-    df_dim_departure.to_csv(f"csv-files/dimension/dim_departure_{date}.csv",index=False)
-    df_dim_arrival.to_csv(f"csv-files/dimension/dim_arrival_{date}.csv",index=False)
-    df_dim_aircraft.to_csv(f"csv-files/dimension/dim_aircraft_{date}.csv",index=False)
+    df_fact.to_csv(f"csv-files/{date}_{airline}.csv",index=False)
 
-    return api_response
+    return print(f"Successfuly downloaded file for {airline} at {date}")
 
 
 
-retrive_hist_flights("2024-04-14", "dl", "iata")
+retrive_hist_flights("2024-04-15", "dl", "iata")
