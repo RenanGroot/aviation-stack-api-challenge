@@ -1,11 +1,19 @@
 import sqlite3
+import subprocess
 
-def create_db():
+def upload_csv(csv_path:str) -> None:
+    """
+    This function creates the database (if not exists), and populate it with a csv file retieved from the API.
 
+    Args:
+        csv_path (str): Csv file path. Ex: "csv-files/2024-04-15_dl.csv"
+  
+    """
     connection = sqlite3.connect("database/test.db")
     
     cursor = connection.cursor()
 
+    # Creating Table, if not exists
     cursor.execute(
     """
     CREATE TABLE IF NOT EXISTS example (
@@ -49,6 +57,15 @@ def create_db():
          aircraft_icao24 );
     """
     )
+
+    # Run subprocess for populating the DB with the csv file
+    subprocess.run(['sqlite3',
+                         str("database/test.db"),
+                         '-cmd',
+                         '.mode csv',
+                         '.import --skip 1 ' + csv_path
+                                 +' example'],
+                        capture_output=True)
     connection.commit()
 
-create_db()
+    print(f"Successfully populated db with file from : {csv_path}")

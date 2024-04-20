@@ -12,8 +12,10 @@ import json
 
 #TODO
 # Scalate it
+# Give it a range date (calculation)
+# Checks if the file already exists
 
-def retrive_hist_flights(date:str, airline:str, option:str) -> None:
+def retrieve_hist_flights(date:str, airline:str, option:str) -> str:
     """
     This function retrieves the data from historical flights of a specific date
 
@@ -22,7 +24,7 @@ def retrive_hist_flights(date:str, airline:str, option:str) -> None:
         airline(str): Airline name, IATA code or ICAO code. According to the option explicited on the args.
         option(str): "name", "iata" or "icao". Option for the airline filter.
     Returns:
-    
+        csv_path (str): Csv file path.
     """
     params = {
     "access_key" : "YOUR API KEY",
@@ -44,9 +46,11 @@ def retrive_hist_flights(date:str, airline:str, option:str) -> None:
     # Requesting from API endpoint
     try:
         api_result = requests.get('https://api.aviationstack.com/v1/flights', params)
-        print(api_result)
     except:
-        print("Failed to get information from the server")
+        print("Server connection failed")
+    
+    if api_result.status_code == 401:
+        return print("ERROR 401 - Unauthorized. Please check you API KEY.")
 
     api_response = api_result.json()
 
@@ -116,11 +120,10 @@ def retrive_hist_flights(date:str, airline:str, option:str) -> None:
 
         df_fact.loc[len(df_fact.index)] = [f_id, f_date, f_status, d_flight_nu, d_flight_ia, d_flight_ic,d_airline_na, d_airline_ia, d_airline_ic,d_departure_ai, d_departure_ti, d_departure_ia, d_departure_ic, d_departure_te, d_departure_ga, d_departure_de, d_departure_sc, d_departure_es, d_departure_ac, d_departure_esrun, d_departure_acrun,d_arrival_ai, d_arrival_ti, d_arrival_ia, d_arrival_ic, d_arrival_te, d_arrival_ga, d_arrival_ba, d_arrival_de, d_arrival_sc, d_arrival_es, d_arrival_ac, d_arrival_esrun, d_arrival_acrun,d_aircraft_re, d_aircraft_ia, d_aircraft_ic, d_aircraft_ic24]
 
+    csv_path = f"csv-files/{date}_{airline}.csv"
 
-    df_fact.to_csv(f"csv-files/{date}_{airline}.csv",index=False)
+    df_fact.to_csv(csv_path,index=False)
 
-    return print(f"Successfuly downloaded file for {airline} at {date}")
+    print(f"Successfully downloaded file for {airline} at {date}")
 
-
-
-retrive_hist_flights("2024-04-15", "dl", "iata")
+    return csv_path
