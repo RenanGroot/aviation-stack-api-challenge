@@ -1,6 +1,11 @@
 import sqlite3
 import subprocess
 
+#TODO
+# Stablish status table
+# Condition given the status table
+
+
 def upload_csv(csv_path:str) -> None:
     """
     This function creates the database (if not exists), and populate it with a csv file retieved from the API.
@@ -9,14 +14,14 @@ def upload_csv(csv_path:str) -> None:
         csv_path (str): Csv file path. Ex: "csv-files/2024-04-15_dl.csv"
   
     """
-    connection = sqlite3.connect("database/test.db")
+    connection = sqlite3.connect("database/historical_flights.db")
     
     cursor = connection.cursor()
 
-    # Creating Table, if not exists
+    # Creating Tables, if not exist
     cursor.execute(
     """
-    CREATE TABLE IF NOT EXISTS example (
+    CREATE TABLE IF NOT EXISTS flights (
         id TEXT PRIMARY KEY,
         flight_date TEXT,
         flight_status TEXT,
@@ -60,12 +65,12 @@ def upload_csv(csv_path:str) -> None:
 
     # Run subprocess for populating the DB with the csv file
     subprocess.run(['sqlite3',
-                         str("database/test.db"),
+                         str("database/historical_flights.db"),
                          '-cmd',
                          '.mode csv',
                          '.import --skip 1 ' + csv_path
-                                 +' example'],
+                                 +' flights'],
                         capture_output=True)
     connection.commit()
 
-    print(f"Successfully populated db with file from : {csv_path}")
+    print(f"Successfully populated db with data from : {csv_path}")
