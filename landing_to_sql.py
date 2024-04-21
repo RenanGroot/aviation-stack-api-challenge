@@ -1,7 +1,7 @@
 import sqlite3
 import subprocess
 
-#TODO
+#TODO (Improvements)
 # Stablish status table
 # Condition given the status table
 

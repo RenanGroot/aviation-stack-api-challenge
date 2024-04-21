@@ -4,8 +4,9 @@ import json
 from datetime import datetime, timedelta
 
 
-#TODO
+#TODO (Improvements)
 # Checks if the file already exists
+# Increase number of retires per request (fail cases)
 
 def retrieve_hist_flights(start_date:str, end_date:str, airline:str, option:str, api_key:str) -> list:
     """
