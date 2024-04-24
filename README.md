@@ -23,10 +23,13 @@ of the analysis in the form of graphs or charts.
 - Document your solution, including installation and usage instructions, as well as an explanation
 of the processes and decisions made during development.
 
-# Installation
-- In order to run properly this project, your machine should have Python installed (version 3.9+), 
+## Repository files
 
-# Python Libraries Requiered
+
+# Installation
+- In order to run properly this project, your machine should have Python installed (version 3.9+), JupyterNotebook or Jupyter Lab (in order to open and run the ipynb files) and also the following python libraries:
+
+## Python Libraries Requiered
 - requests
 - pandas
 - json
@@ -38,8 +41,10 @@ of the processes and decisions made during development.
 - matplotlib
 
 # Usage
-- Make sure you have all the python libraries requiered.
-- Make sure you have some IDE able to read and execute the Jupyter Notebook (.ipynb).
 - Clone the repository.
+    - Open Git Bash.
+    - Change the current working directory to the location where you want the cloned directory.
+    - `git clone https://github.com/RenanGroot/aviation-stack-api-challenge.git`
 - Open the Analysis.ipynb Jupyter Notebook.
-- Follow the Notebook
+    - Using Jupyter Notebook or Jupyter Lab.
+- Follow the instructions inside the Notebook.
