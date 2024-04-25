@@ -23,8 +23,19 @@ of the analysis in the form of graphs or charts.
 - Document your solution, including installation and usage instructions, as well as an explanation
 of the processes and decisions made during development.
 
-## Repository files
+## Repository files n folders
+There are two folders in this repository, both hold the data ingested by the code.
+- **csv-files**
+    - Store the csv-files containing the data from each day and airline requested.
+- **database**
+    - Store the database containing all the data in tables.
 
+There are three files, which are the main files. A brief description for each one:
+- `source_to_landing.py`
+    - Python script that holds a function resposible for taking the data from the API connection, and storing this data on .csv files.
+- `landing_to_sql.py`
+    - Python script that holds a function resposible for taking the data stored in .csv files, and populating it in the database.
+- `Analysis.ipynb`
 
 # Installation
 - In order to run properly this project, your machine should have Python installed (version 3.9+), JupyterNotebook or Jupyter Lab (in order to open and run the ipynb files) and also the following python libraries:
