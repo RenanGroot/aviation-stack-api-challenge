@@ -1,13 +1,24 @@
-# aviation-stack-api-challenge
- This is a repository created in order to do the DE interview challenge using a flight history API.
+**Table of Contents**
+- [Introduction](#introduction)
+    - [Challenge Details](#challenge-details) 
+        - [Mandatory Features](#mandatory-features)
+        - [Bonus](#bonus)
+- [Installation (Pre-Requierements)](#installation)
+    - [Python Libraries Requiered](#python-libraries-requiered)
+- [Repository files and folders](#repository-files-and-folders)
+    - [Folder](#folders)
+    - [Files](#files)
+- [Usage](#usage)
 
- [API Documentation](https://aviationstack.com/documentation)
+ 
+# Introduction
+ This repository was created as a result of a Data Engineer interview challenge. The main goals was to use the AviationStack API with the basic plan to obtain historical flight data and perform basic flight data
+processing and analysis. The assessment revolved around (my) ability to create robust products with attention to detail, standards and reusability.
 
-## Assignment
-Use the AviationStack API with the basic plan to obtain historical flight data and perform basic flight data
-processing and analysis.
+ [AviationStack API Documentation](https://aviationstack.com/documentation)
 
-## Mandatory Features
+## Challenge Details
+>### Mandatory Features
 - There must be an automated process to ingest and store the data. Use Python or another
 programming language of your choice to develop a script or application that interacts with the
 API.
@@ -24,20 +35,11 @@ of the analysis in the form of graphs or charts.
 - Document your solution, including installation and usage instructions, as well as an explanation
 of the processes and decisions made during development.
 
-## Repository files and folders
-There are two folders in this repository, both hold the data ingested by the code.
-- **csv-files**
-    - Store the csv-files containing the data from each day and airline requested.
-- **database**
-    - Store the database containing all the data in tables.
+> ### Bonus
+- Containerize your solution.
+- Sketch up how you would set up the application using any cloud provider (AWS, GCP, etc).
 
-There are three files, which are the main files. A brief description for each one:
-- `source_to_landing.py`
-    - Python script that holds a function resposible for taking the data from the API connection, and storing this data on .csv files.
-- `landing_to_sql.py`
-    - Python script that holds a function resposible for taking the data stored in .csv files, and populating it in the database.
-- `Analysis.ipynb`
-    - JupyterNotebook holding instructions for functions usage, database consulting and data analysis.
+
 
 # Installation
 - In order to run properly this project, your machine should have Python installed (version 3.9+), JupyterNotebook or Jupyter Lab (in order to open and run the ipynb files) and also the following python libraries:
@@ -52,6 +54,23 @@ There are three files, which are the main files. A brief description for each on
 - numpy
 - plotly
 - matplotlib
+
+# Repository files and folders
+## Folders
+There are two folders in this repository, both hold the data ingested by the code.
+- **csv-files**
+    - Store the csv-files containing the data from each day and airline requested.
+- **database**
+    - Store the database containing all the data in tables.
+
+## Files
+There are three files, which are the main files. A brief description for each one:
+- `source_to_landing.py`
+    - Python script that holds a function resposible for taking the data from the API connection, and storing this data on .csv files.
+- `landing_to_sql.py`
+    - Python script that holds a function resposible for taking the data stored in .csv files, and populating it in the database.
+- `Analysis.ipynb`
+    - JupyterNotebook holding instructions for functions usage, database consulting and data analysis.
 
 # Usage
 - Clone the repository.
